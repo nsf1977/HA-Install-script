@@ -15,6 +15,8 @@ set -o pipefail # Return exit status of the last command in the pipe that failed
 # GLOBALS
 # ==============================================================================
 readonly HOSTNAME="armhassio"
+readonly OS_AGENT="os-agent_1.4.1_linux_aarch64.deb"
+readonly OS_AGENT_PATH="https://github.com/home-assistant/os-agent/releases/download/1.4.1/"
 readonly HASSIO_INSTALLER="https://github.com/home-assistant/supervised-installer/releases/latest/download/"
 readonly REQUIREMENTS=(
   apparmor-utils
