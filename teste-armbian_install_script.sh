@@ -71,7 +71,12 @@ install_docker() {
 # ------------------------------------------------------------------------------
 install_hassio() {
   echo "Installing Hass.io..."
-  curl -sL "${HASSIO_INSTALLER}" | bash -s -- -m qemuarm-64
+  apt-get update
+  apt-get install udisks2 wget -y
+  wget "${OS_AGENT_PATH}${OS_AGENT}"
+  dpkg -i "${OS_AGENT}"
+  wget "${HA_INSTALLER_PATH}${HA_INSTALLER}"
+  dpkg -i "${HA_INSTALLER}"
 }
 
 # ------------------------------------------------------------------------------
@@ -104,6 +109,7 @@ main() {
   config_network_manager
   install_docker
   install_hassio
+  upgrade_final
 
   # Friendly closing message
   ip_addr=$(hostname -I | cut -d ' ' -f1)
