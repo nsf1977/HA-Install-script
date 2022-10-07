@@ -108,11 +108,11 @@ main() {
   # Friendly closing message
   ip_addr=$(hostname -I | cut -d ' ' -f1)
   echo "======================================================================="
-  echo "Esta sendo instalado o Home Assistant."
-  echo "Aguarde os 20 minutos, ok"
-  echo "Deu tudo certo! Parabens!!!"
-  echo "by Josiel, com ajuda do youtube,sites diversos e da comunidade Portuguesa HA"
-  echo "Para acessar va em: http://${ip_addr}:8123/"
+  echo "Home Assistant está a ser instalado."
+  echo "Aguarde cerca de 20 minutos"
+  echo "Parabens! O Home Asistant foi instalado"
+  echo "Teste por nsf"
+  echo "Para aceder vá ao endereço: http://${ip_addr}:8123/"
 
   exit 0
 }
