@@ -89,8 +89,8 @@ install_hassio() {
   wget "${OS_AGENT_PATH}${OS_AGENT}"
   dpkg -i "${OS_AGENT}"
   wget "${HA_INSTALLER_PATH}${HA_INSTALLER}"
-  dpkg -i "${HA_INSTALLER}"
   apt --fix-broken install
+  dpkg -i "${HA_INSTALLER}"
 }
 
 # ------------------------------------------------------------------------------
