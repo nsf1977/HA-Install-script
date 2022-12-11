@@ -45,7 +45,9 @@ update_hostname() {
     sed -i "s/${old_hostname}/${HOSTNAME}/g" /etc/hostname
     sed -i "s/${old_hostname}/${HOSTNAME}/g" /etc/hosts
     hostname "${HOSTNAME}"
+    echo ""
     echo "Hostname will be changed on next reboot: ${HOSTNAME}"
+    echo ""
   fi
 }
 
@@ -53,11 +55,15 @@ update_hostname() {
 # Installs all required software packages and tools
 # ------------------------------------------------------------------------------
 install_requirements() {
+  echo ""
   echo "Updating APT packages list..."
+  echo ""
+  apt-get --allow-releaseinfo-change update
   apt-get install software-properties-common
   apt-get update
-
+  echo ""
   echo "Ensure all requirements are installed..."
+  echo ""
   apt-get install -y "${REQUIREMENTS[@]}"
 }
 
@@ -65,7 +71,9 @@ install_requirements() {
 # Installs the Docker engine
 # ------------------------------------------------------------------------------
 install_docker() {
+  echo ""
   echo "Installing Docker..."
+  echo ""
   curl -fsSL https://get.docker.com | sh
 }
 
@@ -73,8 +81,15 @@ install_docker() {
 # Installs and starts Hass.io
 # ------------------------------------------------------------------------------
 install_hassio() {
-  echo "Installing Home Assistant"
-  curl -sL "${HASSIO_INSTALLER}" | bash -s -- -m qemuarm-64
+  echo ""
+  echo "Installing Home Assistant..."
+  echo ""
+  apt-get update
+  apt-get install udisks2 wget -y
+  wget "${OS_AGENT_PATH}${OS_AGENT}"
+  dpkg -i "${OS_AGENT}"
+  wget "${HA_INSTALLER_PATH}${HA_INSTALLER}"
+  dpkg -i "${HA_INSTALLER}"
 }
 
 # ------------------------------------------------------------------------------
@@ -87,6 +102,17 @@ config_network_manager() {
     echo -e "\n[connection]";
     echo "wifi.clone-mac-address=preserve";
   } >> "/etc/NetworkManager/NetworkManager.conf"
+}
+
+# ------------------------------------------------------------------------------
+# Upgrade final
+# ------------------------------------------------------------------------------
+upgrade_final() {
+  echo ""
+  echo "Upgrade..."
+  echo ""
+  sudo apt update
+  sudo apt upgrade -y
 }
 
 # ==============================================================================
@@ -107,15 +133,16 @@ main() {
   config_network_manager
   install_docker
   install_hassio
+  upgrade_final
 
   # Friendly closing message
   ip_addr=$(hostname -I | cut -d ' ' -f1)
   echo "======================================================================="
-  echo "Esta sendo instalado o Home Assistant."
-  echo "Aguarde os 20 minutos, ok"
-  echo "Deu tudo certo! Parabens!!!"
-  echo "by Josiel, com ajuda do youtube,sites diversos e da comunidade Portuguesa HA"
-  echo "Para acessar va em: http://${ip_addr}:8123/"
+  echo "Hass.io is now installing Home Assistant."
+  echo "This process may take up to 20 minutes. Please visit:"
+  echo "http://${HOSTNAME}.local:8123/ in your browser and wait"
+  echo "for Home Assistant to load."
+  echo "If the previous URL does not work, please try http://${ip_addr}:8123/"
 
   exit 0
 }
