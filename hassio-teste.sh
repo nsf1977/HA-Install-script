@@ -18,7 +18,7 @@ readonly HOSTNAME="homeassistant"
 readonly OS_AGENT="os-agent_1.4.1_linux_aarch64.deb"
 readonly OS_AGENT_PATH="https://github.com/home-assistant/os-agent/releases/download/1.4.1/"
 readonly HA_INSTALLER="homeassistant-supervised.deb"
-readonly HA_INSTALLER_PATH="https://github.com/home-assistant/supervised-installer/releases/latest/download/"
+readonly HA_INSTALLER_PATH="https://github.com/home-assistant/supervised-installer/releases/download/1.4.1/homeassistant-supervised.deb"
 readonly REQUIREMENTS=(
   apparmor-utils
   apt-transport-https
